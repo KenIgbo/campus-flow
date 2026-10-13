@@ -120,5 +120,6 @@ def view_ticket():
             max_key_len = max(len(str(key)) for key in ticket)
             lines = [f"{key.capitalize():<{max_key_len}} : {str(value)}" for key, value in ticket.items()]
 
-    return f"======================================================= DETAILS OF {ticket_id} =======================================================\n" + "\n".join(lines)
+            return f"======================================================= DETAILS OF {ticket_id} =======================================================\n" + "\n".join(lines)
+    return "ID not found"
     

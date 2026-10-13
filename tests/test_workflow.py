@@ -1,5 +1,5 @@
 import unittest
-from unittest.mock import patch
+from unittest.mock import patch, mock_open
 from campusflow.storage import tickets
 from campusflow.workflow import update_status
 
@@ -21,8 +21,9 @@ class TestCampusFlowWorkflow(unittest.TestCase):
 
     # --- Workflow State Tests ---
 
+    @patch("builtins.open", new_callable=mock_open)
     @patch("builtins.input")
-    def test_update_status_success(self, mock_input):
+    def test_update_status_success(self, mock_input, mock_file):
         mock_input.side_effect = [
             "T001",
             "in_progress"
@@ -30,11 +31,12 @@ class TestCampusFlowWorkflow(unittest.TestCase):
 
         result = update_status()
 
-        self.assertEqual(result, "Status updated")
+        self.assertEqual(result, "Status updated successfully")
         self.assertEqual(tickets[0]["status"], "in_progress")
 
+    @patch("builtins.open", new_callable=mock_open)
     @patch("builtins.input")
-    def test_ticket_not_found(self, mock_input):
+    def test_ticket_not_found(self, mock_input, mock_file):
         mock_input.side_effect = [
             "T999"
         ]
@@ -43,8 +45,9 @@ class TestCampusFlowWorkflow(unittest.TestCase):
 
         self.assertEqual(result, "Ticket ID not found")
 
+    @patch("builtins.open", new_callable=mock_open)
     @patch("builtins.input")
-    def test_open_to_in_progress(self, mock_input):
+    def test_open_to_in_progress(self, mock_input, mock_file):
         tickets[0]["status"] = "open"
         mock_input.side_effect = [
             "T001",
@@ -53,10 +56,11 @@ class TestCampusFlowWorkflow(unittest.TestCase):
 
         result = update_status()
 
-        self.assertEqual(result, "Status updated")
+        self.assertEqual(result, "Status updated successfully")
 
+    @patch("builtins.open", new_callable=mock_open)
     @patch("builtins.input")
-    def test_open_to_resolved_rejected(self, mock_input):
+    def test_open_to_resolved_rejected(self, mock_input, mock_file):
         tickets[0]["status"] = "open"
         mock_input.side_effect = [
             "T001",
@@ -65,10 +69,11 @@ class TestCampusFlowWorkflow(unittest.TestCase):
 
         result = update_status()
 
-        self.assertEqual(result, "Update rejected")
+        self.assertEqual(result, "Cannot change status from 'open' to 'resolved'!")
 
+    @patch("builtins.open", new_callable=mock_open)
     @patch("builtins.input")
-    def test_in_progress_to_open_rejected(self, mock_input):
+    def test_in_progress_to_open_rejected(self, mock_input, mock_file):
         tickets[0]["status"] = "in_progress"
         mock_input.side_effect = [
             "T001",
@@ -77,10 +82,11 @@ class TestCampusFlowWorkflow(unittest.TestCase):
 
         result = update_status()
 
-        self.assertEqual(result, "Update rejected")
+        self.assertEqual(result, "Cannot change status from 'in_progress' to 'open'!")
 
+    @patch("builtins.open", new_callable=mock_open)
     @patch("builtins.input")
-    def test_in_progress_to_resolved(self, mock_input):
+    def test_in_progress_to_resolved(self, mock_input, mock_file):
         tickets[0]["status"] = "in_progress"
         mock_input.side_effect = [
             "T001",
@@ -89,10 +95,11 @@ class TestCampusFlowWorkflow(unittest.TestCase):
 
         result = update_status()
 
-        self.assertEqual(result, "Status updated")
+        self.assertEqual(result, "Status updated successfully")
 
+    @patch("builtins.open", new_callable=mock_open)
     @patch("builtins.input")
-    def test_update_unassigned_ticket(self, mock_input):
+    def test_update_unassigned_ticket(self, mock_input, mock_file):
         tickets[0]["assigned_to"] = None
         mock_input.side_effect = [
             "T001",
@@ -101,10 +108,11 @@ class TestCampusFlowWorkflow(unittest.TestCase):
 
         result = update_status()
 
-        self.assertEqual(result, "Update rejected")
+        self.assertEqual(result, "Update rejected! ticket not assigned")
 
+    @patch("builtins.open", new_callable=mock_open)
     @patch("builtins.input")
-    def test_invalid_status(self, mock_input):
+    def test_invalid_status(self, mock_input, mock_file):
         mock_input.side_effect = [
             "T001",
             "closed"

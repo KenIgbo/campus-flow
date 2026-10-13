@@ -11,46 +11,46 @@ def update_status():
         if ticket["id"] == ticket_id:
             status = input("Enter new status: ")
 
-            if status.strip() == "":
-                return "Status cannot be empty"
+            status_lower = status.strip().lower()
 
-            status_lower = status.lower()
+            if status_lower == "":
+                return "Status cannot be empty"
 
             if status_lower not in status_list:
                 return "Status not supported"
 
             if ticket["assigned_to"] == None:
-                return "Update rejected"
+                return "Update rejected! ticket not assigned"
             else:
                 if ticket["status"] == "open":
                     if status_lower == "open":
                         return "Status already 'open'"
                     elif status_lower == "resolved":
-                        return "Update rejected"
+                        return "Cannot change status from 'open' to 'resolved'!"
                     else:
                         ticket["status"] = status_lower
                         save_ticket()
-                        return "Status updated"
+                        return "Status updated successfully"
 
                 elif ticket["status"] == "in_progress":
                     if status_lower == "open":
-                        return "Update rejected"
+                        return "Cannot change status from 'in_progress' to 'open'!"
                     elif status_lower == "in_progress":
                         return "Status already 'in_progress'"
                     else:
                         ticket["status"] = status_lower
                         save_ticket()
-                        return "Status updated"
+                        return "Status updated successfully"
 
                 else:
                     if status_lower == "resolved":
                         return "Status already 'resolved'"
                     elif status_lower == "in_progress":
-                        return "Update rejected"
+                        return "Cannot change status from 'resolved' to 'in_progress'!"
                     else:
                         ticket["status"] = status_lower
                         save_ticket()
-                        return "Status updated"
+                        return "Status updated successfully"
 
     return "Ticket ID not found"
 

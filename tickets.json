@@ -1,0 +1,52 @@
+[
+    {
+        "id": "T001",
+        "title": "Laptop not working",
+        "category": "hardware",
+        "urgency": "high",
+        "affected_users": 12,
+        "priority": "high",
+        "status": "resolved",
+        "assigned_to": "Emma Onuh"
+    },
+    {
+        "id": "T002",
+        "title": "Epileptic network",
+        "category": "network",
+        "urgency": "high",
+        "affected_users": 10,
+        "priority": "critical",
+        "status": "open",
+        "assigned_to": null
+    },
+    {
+        "id": "T003",
+        "title": "System update not working",
+        "category": "software",
+        "urgency": "high",
+        "affected_users": 20,
+        "priority": "critical",
+        "status": "open",
+        "assigned_to": "James Inalegwu"
+    },
+    {
+        "id": "T004",
+        "title": "Ac not cooling",
+        "category": "other",
+        "urgency": "low",
+        "affected_users": 50,
+        "priority": "high",
+        "status": "open",
+        "assigned_to": null
+    },
+    {
+        "id": "T005",
+        "title": "Solar batteries malfunction",
+        "category": "other",
+        "urgency": "high",
+        "affected_users": 12,
+        "priority": "critical",
+        "status": "open",
+        "assigned_to": null
+    }
+]

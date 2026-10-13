@@ -8,6 +8,14 @@ class TestCampusFlowTickets(unittest.TestCase):
     def setUp(self):
         # Clears the storage before every single test case run
         tickets.clear()
+        
+        # Globally mock save_ticket across all tests to prevent disk writes
+        self.save_patcher = patch("campusflow.tickets.save_ticket")
+        self.mock_save_ticket = self.save_patcher.start()
+
+    def tearDown(self):
+        # Stop the patcher cleanly after each test runs
+        self.save_patcher.stop()
 
     # --- Create Ticket Tests ---
 
@@ -25,6 +33,8 @@ class TestCampusFlowTickets(unittest.TestCase):
         self.assertEqual(result, "Ticket created successfully\n")
         self.assertEqual(len(tickets), 1)
         self.assertEqual(tickets[0]["priority"], "critical")
+        # Optional check to make sure it tried to save safely in memory:
+        self.mock_save_ticket.assert_called_once()
 
     @patch("builtins.input")
     def test_create_ticket_empty_title(self, mock_input):
@@ -129,9 +139,8 @@ class TestCampusFlowTickets(unittest.TestCase):
         self.assertEqual(result, "Name cannot be empty")
 
 
-    @patch("campusflow.tickets.save_ticket")  # Mocks save_ticket so it doesn't write to disk during this test
     @patch("builtins.input")
-    def test_assign_ticket_success(self, mock_input, mock_save_ticket):
+    def test_assign_ticket_success(self, mock_input):
         tickets.append({
             "id": "T001",
             "title": "Wifi",
