@@ -1,46 +1,51 @@
-from campusflow.storage import tickets
+"""
+Analytics for the Head of Campus. Engineer B owns this.
+"""
 
-def view_reports():
-    num_of_tickets = len(tickets)
-    if num_of_tickets == 0:
-        print("======================================================= TICKET REPORTS =======================================================\n")
-        print("Total tickets: 0\n\nBy Status:\nOpen: 0\nIn Progress: 0\nResolved: 0\n\nBy Priority:\nCritical: 0\nHigh: 0\nMedium: 0\nLow: 0")
 
-    else:
-        num_open = 0
-        for ticket in tickets:
-            if ticket["status"] == "open":
-                num_open += 1
+def build_report(collection):
+    """Return a report dict. Never crashes on empty input."""
+    total = len(collection)
 
-        num_inprogess = 0
-        for ticket in tickets:
-            if ticket["status"] == "in_progress":
-                num_inprogess += 1
+    by_status = {"open": 0, "in_progress": 0, "resolved": 0}
+    by_priority = {"critical": 0, "high": 0, "medium": 0, "low": 0}
+    by_category = {"Network": 0, "Hardware": 0, "Software": 0, "Other": 0}
 
-        num_resolved = 0
-        for ticket in tickets:
-            if ticket["status"] == "resolved":
-                num_resolved += 1
+    for t in collection:
+        by_status[t["status"]] = by_status.get(t["status"], 0) + 1
+        by_priority[t["priority"]] = by_priority.get(t["priority"], 0) + 1
+        by_category[t["category"]] = by_category.get(t["category"], 0) + 1
 
-        num_critical = 0
-        for ticket in tickets:
-            if ticket["priority"] == "critical":
-                num_critical += 1
+    resolved = by_status["resolved"]
+    unresolved = by_status["open"] + by_status["in_progress"]
+    percentage = (resolved / total * 100) if total > 0 else 0.0
 
-        num_high = 0
-        for ticket in tickets:
-            if ticket["priority"] == "high":
-                num_high += 1
+    return {
+        "total": total,
+        "by_status": by_status,
+        "by_priority": by_priority,
+        "by_category": by_category,
+        "unresolved": unresolved,
+        "resolved": resolved,
+        "resolution_percentage": percentage,
+    }
 
-        num_medium = 0
-        for ticket in tickets:
-            if ticket["priority"] == "medium":
-                num_medium += 1
 
-        num_low = 0
-        for ticket in tickets:
-            if ticket["priority"] == "low":
-                num_low += 1
-
-        print("======================================================= TICKET REPORTS =======================================================\n")
-        print(f"Total tickets: {num_of_tickets}\n\nBy Status:\nOpen: {num_open}\nIn Progress: {num_inprogess}\nResolved: {num_resolved}\n\nBy Priority:\nCritical: {num_critical}\nHigh: {num_high}\nMedium: {num_medium}\nLow: {num_low}")
+def view_reports(collection=None):
+    if collection is None:
+        from campusflow.storage import tickets as collection
+    r = build_report(collection)
+    print("=" * 40 + " REPORTS " + "=" * 40)
+    print(f"Total tickets: {r['total']}")
+    print("\nBy Status:")
+    for k, v in r["by_status"].items():
+        print(f"  {k}: {v}")
+    print("\nBy Priority:")
+    for k, v in r["by_priority"].items():
+        print(f"  {k}: {v}")
+    print("\nBy Category:")
+    for k, v in r["by_category"].items():
+        print(f"  {k}: {v}")
+    print(f"\nUnresolved (open + in_progress): {r['unresolved']}")
+    print(f"Resolved: {r['resolved']}")
+    print(f"Resolution: {r['resolution_percentage']:.1f}%")
