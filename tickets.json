@@ -7,7 +7,14 @@
         "affected_users": 12,
         "priority": "high",
         "status": "resolved",
-        "assigned_to": "Emma Onuh"
+        "assigned_to": "Emma Onuh",
+        "notes": [
+            {
+                "note_id": "N001",
+                "author": null,
+                "message": null
+            }
+        ]
     },
     {
         "id": "T002",
@@ -36,8 +43,8 @@
         "urgency": "low",
         "affected_users": 50,
         "priority": "high",
-        "status": "open",
-        "assigned_to": null
+        "status": "in_progress",
+        "assigned_to": "sunday"
     },
     {
         "id": "T005",
@@ -48,5 +55,37 @@
         "priority": "critical",
         "status": "open",
         "assigned_to": null
+    },
+    {
+        "id": "T006",
+        "title": "Rock",
+        "category": "software",
+        "urgency": "high",
+        "affected_users": 4,
+        "priority": "high",
+        "status": "open",
+        "assigned_to": "Sam",
+        "notes": [
+            {
+                "note_id": "N001",
+                "author": "Bat",
+                "message": "i have started working"
+            },
+            {
+                "note_id": "N002",
+                "author": "Win",
+                "message": "work completed"
+            },
+            {
+                "note_id": "N003",
+                "author": "Maria",
+                "message": "almost done"
+            },
+            {
+                "note_id": "N004",
+                "author": "Ham",
+                "message": "started work"
+            }
+        ]
     }
 ]
