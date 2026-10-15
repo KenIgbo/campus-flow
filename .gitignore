@@ -1,0 +1,26 @@
+# Create .gitignore
+cat > .gitignore << 'EOF'
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+EOF
+
+# Stop tracking pyc files
+git rm -r --cached campusflow/__pycache__ tests/__pycache__ 2>/dev/null
+
+# Check
+git status
