@@ -43,4 +43,4 @@ def menu():
 load_tickets()
 
 while True:
-    menu()
+  menu()
