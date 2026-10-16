@@ -81,7 +81,7 @@ python main.py
 ## Running Tests
 
 ```bash
-python -m unittest discover -s tests -v
+python3 -m unittest discover -s tests -v
 ```
 
 ## Test Coverage

@@ -4,24 +4,23 @@ def gen_id():
     if len(tickets) == 0:
         id_val = "1"
         id_val_str = "T00" + id_val
-
     else:
-        last_ticket = tickets[-1]
-        id_val = last_ticket["id"][3:]
-        id_val_str = "T00" + str(int(id_val)+1)
-
+        id_list = [int(str(ticket["id"][3:])) for ticket in tickets]
+        max_id = max(id_list)
+        id_val_str = "T00" + str(max_id + 1)
     return id_val_str
+        
 
 
 def note_id():
-    if len(target_ticket) == 0:
+    if len(target_ticket["notes"]) == 0:
         id_val = "1"
         id_val_str = "N00" + id_val
 
     else:
-        last_note = target_ticket["notes"][-1]
-        id_val = last_note["note_id"][3:]
-        id_val_str = "N00" + str(int(id_val)+1)
+        note_id_list = [int(str(note["note_id"][3:])) for note in target_ticket["notes"]]
+        max_note_id = max(note_id_list)
+        id_val_str = "N00" + str(max_note_id + 1)
 
     return id_val_str
 
@@ -88,6 +87,9 @@ def create_ticket():
 
 
 def assign_ticket():
+    if len(tickets) == 0:
+        return "No ticket recorded"
+
     ticket_id = input("Enter Ticket ID: ")
 
     if ticket_id.strip() == "":
@@ -111,11 +113,13 @@ def assign_ticket():
 
 
 def list_tickets():
+    if len(tickets) == 0:
+        print("No ticket recorded")
+        return
+
     headings = [["ID", "TITLE", "CATEGORY", "URGENCY", "AFFECTED USERS", "PRIORITY", "STATUS", "ASSIGNED TO"]]
-    for i in range(len(tickets)):
-        add = []
-        for key in tickets[i]:
-            add.append(tickets[i][key])
+    for ticket in tickets:
+        add = [ticket["id"], ticket["title"], ticket["category"], ticket["urgency"], ticket["affected_users"], ticket["priority"], ticket["status"], ticket["assigned_to"]]
         headings.append(add)
 
     col_widths = [max(len(str(item)) for item in col) for col in zip(*headings)]
@@ -127,6 +131,9 @@ def list_tickets():
 
 
 def view_ticket():
+    if len(tickets) == 0:
+        return "No ticket recorded"
+
     ticket_id = input("Enter Ticket ID: ")
     if ticket_id.strip() == "":
         return "Ticket ID cannot be empty"
@@ -141,6 +148,9 @@ def view_ticket():
     
 
 def add_note():
+    if len(tickets) == 0:
+        return "No ticket recorded"
+
     global target_ticket
 
     ticket_id = input("Enter Ticket ID: ")    
@@ -158,14 +168,14 @@ def add_note():
 
                 author = input("Enter author name: ").strip()
                 if author == "":
-                   return "Author name cannot be blank"
+                   return "Author name cannot be empty"
                 
                 message = input("Enter note message: ").strip()
                 if message == "":
-                   return "message cannot be blank"
+                   return "Message cannot be empty"
                 
                 if len(message)<5 or len(message)>300:
-                   return "message must contain 5-300 characters"
+                   return "Message must contain 5-300 characters"
                 
             else:
                 return "A resolved ticket cannot accept a new note"  
@@ -178,6 +188,10 @@ def add_note():
 
 
 def view_ticket_notes():
+    if len(tickets) == 0:
+        print("No ticket recorded")
+        return
+
     ticket_id = input("Enter ticket ID: ")
     if ticket_id.strip() == "":
         print("Ticket ID cannot be empty")
@@ -185,11 +199,13 @@ def view_ticket_notes():
     
     for ticket in tickets:
         if ticket["id"] == ticket_id:
+            if ticket["notes"] == []:
+                print("No notes for this Ticket")
+                return
+
             list_2d = [["NOTE ID", "AUTHOR", "MESSAGE"]]
-            for i in range(len(ticket["notes"])):
-                add = []
-                for key in ticket["notes"][i]:
-                    add.append(ticket["notes"][i][key])
+            for note in ticket["notes"]:
+                add = [note["note_id"], note["author"], note["message"]]
                 list_2d.append(add)
 
             col_widths = [max(len(str(item)) for item in col) for col in zip(*list_2d)]

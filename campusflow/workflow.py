@@ -1,6 +1,9 @@
 from campusflow.storage import tickets, save_ticket
 
 def update_status():
+    if len(tickets) == 0:
+        return "No ticket recorded"
+
     status_list = ["open", "in_progress", "resolved"]
     ticket_id = input("Enter Ticket ID: ")
     
@@ -56,8 +59,13 @@ def update_status():
 
 
 def work_queue():
+    if len(tickets) == 0:
+        print("No ticket recorded")
+        return
+
     headings = [["ID", "TITLE", "CATEGORY", "URGENCY", "AFFECTED USERS", "PRIORITY", "STATUS", "ASSIGNED TO"]]
     queue = []
+
     for ticket in tickets:
         if ticket["priority"] == "critical":
             if ticket["status"] != "resolved":
@@ -78,10 +86,8 @@ def work_queue():
             if ticket["status"] != "resolved":
                 queue.append(ticket)
 
-    for i in range(len(queue)):
-        add = []
-        for key in queue[i]:
-            add.append(queue[i][key])
+    for ticket in queue:
+        add = [ticket["id"], ticket["title"], ticket["category"], ticket["urgency"], ticket["affected_users"], ticket["priority"], ticket["status"], ticket["assigned_to"]]
         headings.append(add)
 
     print("======================================================= WORK QUEUE =======================================================\n")
