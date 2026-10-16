@@ -4,13 +4,12 @@ def gen_id():
     if len(tickets) == 0:
         id_val = "1"
         id_val_str = "T00" + id_val
-
     else:
-        last_ticket = tickets[-1]
-        id_val = last_ticket["id"][3:]
-        id_val_str = "T00" + str(int(id_val)+1)
-
+        id_list = [int(str(ticket["id"][3:])) for ticket in tickets]
+        max_id = max(id_list)
+        id_val_str = "T00" + str(max_id + 1)
     return id_val_str
+        
 
 
 def note_id():
@@ -19,9 +18,9 @@ def note_id():
         id_val_str = "N00" + id_val
 
     else:
-        last_note = target_ticket["notes"][-1]
-        id_val = last_note["note_id"][3:]
-        id_val_str = "N00" + str(int(id_val)+1)
+        note_id_list = [int(str(note["note_id"][3:])) for note in target_ticket["notes"]]
+        max_note_id = max(note_id_list)
+        id_val_str = "N00" + str(max_note_id + 1)
 
     return id_val_str
 

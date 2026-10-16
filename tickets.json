@@ -1,5 +1,16 @@
 [
     {
+        "id": "T005",
+        "title": "Solar batteries malfunction",
+        "category": "other",
+        "urgency": "high",
+        "affected_users": 12,
+        "priority": "critical",
+        "status": "open",
+        "assigned_to": null,
+        "notes": []
+    },
+    {
         "id": "T001",
         "title": "Laptop not working",
         "category": "hardware",
@@ -52,16 +63,21 @@
                 "note_id": "N001",
                 "author": "Sam",
                 "message": "work will commence friday"
+            },
+            {
+                "note_id": "N002",
+                "author": "sunday",
+                "message": "i ma good"
             }
         ]
     },
     {
-        "id": "T005",
-        "title": "Solar batteries malfunction",
+        "id": "T006",
+        "title": "Fans not working",
         "category": "other",
-        "urgency": "high",
-        "affected_users": 12,
-        "priority": "critical",
+        "urgency": "low",
+        "affected_users": 2,
+        "priority": "low",
         "status": "open",
         "assigned_to": null,
         "notes": []
