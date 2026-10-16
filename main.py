@@ -5,18 +5,20 @@ from campusflow.tickets import (
     list_tickets,
     view_ticket,
     add_note,
-    view_ticket_notes
+    view_ticket_notes,
 )
+
 from campusflow.workflow import (
     update_status,
     work_queue
 )
-from campusflow.reports import view_reports
+
+from campusflow.reports import view_reports, search_tickets
 
 
 def menu():
     print("\n======================================================= CAMPUS FLOW =======================================================")
-    print("1.  Add Ticket\n2.  Assign Ticket\n3.  Update Status\n4.  List Tickets\n5.  View Ticket\n6.  View Work Queue\n7.  View Report\n8.  Add Note\n9.  View Ticket Notes\n10.  Exit\n")
+    print("1.   Add Ticket\n2.   Assign Ticket\n3.   Update Status\n4.   List Tickets\n5.   View Ticket\n6.   View Work Queue\n7.   View Report\n8.   Add Note\n9.   View Ticket Notes\n10.  Search Tickets\n11.  Exit\n")
     option = input("Select an option: ")
 
     if option.strip() == "":
@@ -40,6 +42,9 @@ def menu():
     elif option.strip() == "9":
         view_ticket_notes()
     elif option.strip() == "10":
+        search_tickets()
+        # print(search_tickets())
+    elif option.strip() == "11":
         exit()
     else:
         print("Unknown option")
