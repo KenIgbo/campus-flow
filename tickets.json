@@ -1,16 +1,5 @@
 [
     {
-        "id": "T005",
-        "title": "Solar batteries malfunction",
-        "category": "other",
-        "urgency": "high",
-        "affected_users": 12,
-        "priority": "critical",
-        "status": "open",
-        "assigned_to": null,
-        "notes": []
-    },
-    {
         "id": "T001",
         "title": "Laptop not working",
         "category": "hardware",
@@ -66,10 +55,21 @@
             },
             {
                 "note_id": "N002",
-                "author": "sunday",
-                "message": "i ma good"
+                "author": "Sunday",
+                "message": "work completed"
             }
         ]
+    },
+    {
+        "id": "T005",
+        "title": "Solar batteries malfunction",
+        "category": "other",
+        "urgency": "high",
+        "affected_users": 12,
+        "priority": "critical",
+        "status": "open",
+        "assigned_to": null,
+        "notes": []
     },
     {
         "id": "T006",
